@@ -2,25 +2,25 @@
 
 ## Description
 
-This is a simple data-generator mocking a GPGGA data source. The datasource is then proccessed to an kafka-server (`hiwi-test-kafka-1:29092`)
+This is a simple data generator mocking a GPGGA data source. The datasource is then proccessed to an kafka-server (`hiwi-test-kafka-1:29092`)
 
 ## Task
-Please provide a service which subscribes to the Kafka topic `location_topic` and visualize the data on a map. An containerized solution is preffered. You may extend the service to provide additional features like filtering, some additional visualization etc. You may use any programming language, any framework, any library. 
+Please provide a service that subscribes to the Kafka topic `location_topic` and visualize the data on a map. A containerized solution is preferred. You may extend the service to provide additional features like filtering, some additional visualization, etc. You may use any programming language, any framework, or any library. 
 
 AC:
-* [ ] The service need to use the data from the kafka topic `location_topic`
+* [ ] The service needs to use the data from the kafka topic `location_topic`
 * [ ] The service should decode the protobuf data messages 
 * [ ] The service should be able to visualize the data on a map
 * [ ] The service should be containerized
 
 Question to be answered:
-* What an object can be expected moving on the map?
+* What object can be expected to move with that trajectory?
 
 ## Installation
 
 ### Building the project
 
-* Dependencees
+* Dependencies
   * docker
   * protobuf (for decoding the data)
 
@@ -62,5 +62,5 @@ protoc -o descriptors/location.desc location.proto
 
 -> Solution: as often can provide [stackoverflow](https://stackoverflow.com/questions/68776387/docker-library-initialization-failed-unable-to-allocate-file-descriptor-tabl)
 
-(!) Please open an issue if you find any problem.
+(!) Please open an issue if you find any problems.
 
