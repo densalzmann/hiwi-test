@@ -5,10 +5,10 @@
 This is a simple data-generator mocking a GPGGA data source. The datasource is then proccessed to an kafka-server (`hiwi-test-kafka-1:29092`)
 
 ## Task
-Please provide a service which subscribes to the Kafka topic and visualize the data on a map. An containerized solution is preffered. You may extend the service to provide additional features like filtering, some additional visualization etc. You may use any programming language, any framework, any library. 
+Please provide a service which subscribes to the Kafka topic `location_topic` and visualize the data on a map. An containerized solution is preffered. You may extend the service to provide additional features like filtering, some additional visualization etc. You may use any programming language, any framework, any library. 
 
 AC:
-* [ ] The service need to use the data from the kafka topic
+* [ ] The service need to use the data from the kafka topic `location_topic`
 * [ ] The service should decode the protobuf data messages 
 * [ ] The service should be able to visualize the data on a map
 

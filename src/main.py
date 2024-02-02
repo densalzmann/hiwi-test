@@ -41,8 +41,6 @@ while 1:
             location.age           = 0 if data_fields[13]=="" else float(data_fields[13])
             location.stn_id        = data_fields[14]
             
-            print(location)
-            
             if kafka_on:
                 # Send the extracted fields to Kafka
                 serialized_location = location.SerializeToString()
