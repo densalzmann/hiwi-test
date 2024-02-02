@@ -11,6 +11,7 @@ AC:
 * [ ] The service need to use the data from the kafka topic `location_topic`
 * [ ] The service should decode the protobuf data messages 
 * [ ] The service should be able to visualize the data on a map
+* [ ] The service should be containerized
 
 Question to be answered:
 * What an object can be expected to move in the map?
