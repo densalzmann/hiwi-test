@@ -14,7 +14,7 @@ AC:
 * [ ] The service should be containerized
 
 Question to be answered:
-* What an object can be expected to move in the map?
+* What an object can be expected moving on the map?
 
 ## Installation
 
