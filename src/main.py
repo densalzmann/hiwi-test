@@ -3,6 +3,8 @@ from datetime import datetime,timezone
 from confluent_kafka import Producer
 from gen import location_pb2  # Import the generated Protobuf module
 
+kafka_on = True
+
 # Delivery report for Kafka
 def delivery_report(err, msg):
     """Delivery callback for Kafka produce."""
@@ -12,32 +14,41 @@ def delivery_report(err, msg):
         print(f'Message delivered to Kafka to {msg.topic()} [{msg.partition()}]')
 
 # Kafka broker configuration
-bootstrap_servers = 'hiwi-test-kafka-1:29092' 
-producer = Producer({'bootstrap.servers': bootstrap_servers}) # Create a Kafka producer
+if kafka_on:
+    bootstrap_servers = 'hiwi-test-kafka-1:29092' 
+    producer = Producer({'bootstrap.servers': bootstrap_servers}) # Create a Kafka producer
 location = location_pb2.location() # Create a position instance
 
 while 1:
-  location.utc_time      = datetime.now(timezone.utc).timestamp()
-  location.latitude      = "18" + ' ' + "1908.00"
-  location.lat_direction = "N"
-  location.longitude     = "070" + ' ' + "44.3966270"
-  location.lon_direction = "W"
-  location.quality       = 4
-  location.num_sats      = 13
-  location.hdop          = 1.0
-  location.altitude      = 495.144
-  location.alt_units     = "M"
-  location.undulation    = 29.200
-  location.und_units     = "M"
-  location.age           = 0.0
-  location.stn_id        = "0000"
-  
-  print(location)
-  
-  # Send the extracted fields to Kafka
-  serialized_location = location.SerializeToString()
-  topic = 'location_topic'  
-  producer.produce(topic=topic, key="rover", value=serialized_location, callback=delivery_report)    
-  producer.flush() # Flush messages and close producer
+    file = open('./src/source_stream.txt', 'r')
+    lines = file.readlines()
+    for line in lines:
+        data_fields = line.strip().split(",")
+        if data_fields[0]=='$GPGGA':
+            print(data_fields)
+            location.utc_time      = datetime.now(timezone.utc).timestamp()
+            location.latitude      = data_fields[2]
+            location.lat_direction = data_fields[3]
+            location.longitude     = data_fields[4]
+            location.lon_direction = data_fields[5]
+            location.quality       = int(data_fields[6])
+            location.num_sats      = int(data_fields[7])
+            location.hdop          = float(data_fields[8])
+            location.altitude      = float(data_fields[9])
+            location.alt_units     = data_fields[10]
+            location.undulation    = float(data_fields[11])
+            location.und_units     = data_fields[12]
+            location.age           = 0 if data_fields[13]=="" else float(data_fields[13])
+            location.stn_id        = data_fields[14]
+            
+            print(location)
+            
+            if kafka_on:
+                # Send the extracted fields to Kafka
+                serialized_location = location.SerializeToString()
+                topic = 'location_topic'  
+                producer.produce(topic=topic, key="rover", value=serialized_location, callback=delivery_report)    
+                producer.flush() # Flush messages and close producer
+            time.sleep(1)
 
-  time.sleep(1)
+    time.sleep(1)
